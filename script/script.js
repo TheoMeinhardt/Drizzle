@@ -34,7 +34,7 @@ function ShowData(current, location, forecast) {
   });
 
   current.then((value) => {
-    timeMeasuredDisplay.innerHTML = value.last_updated.substring(11, 16);
+    timeMeasuredDisplay.innerHTML = "last updated: " + value.last_updated.substring(11, 16);
     currentTemperaturDisplay.innerHTML = value.temp_c + " °C";
     currentConditionDisplay.innerHTML = value.condition.text.toLowerCase();
     currentConditionIconDisplay.src = value.condition.icon;

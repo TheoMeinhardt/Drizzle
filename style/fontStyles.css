@@ -1,0 +1,89 @@
+/* ------------------------------------------------------------------------ */
+/* font styling classes: */
+/* ------------------------------------------------------------------------ */
+
+/* font weight: */
+
+.extraLight {
+  font-weight: 200;
+}
+
+.light {
+  font-weight: 300;
+}
+
+.regular {
+  font-weight: 400;
+}
+
+.semiBold {
+  font-weight: 600;
+}
+
+.extraBold {
+  font-weight: 800;
+}
+
+.block {
+  font-weight: 900;
+}
+
+/* ------------------------------------------------------------------------ */
+/* font size: */
+/* ------------------------------------------------------------------------ */
+
+.extraSmall {
+  font-size: 0.7rem;
+}
+
+.small {
+  font-size: 0.8rem;
+}
+
+.semiSmall {
+  font-size: 0.9rem;
+}
+
+.regular {
+  font-size: 1rem;
+}
+
+.semiBig {
+  font-size: 1.25rem;
+}
+
+.big {
+  font-size: 1.5rem;
+}
+
+.bigger {
+  font-size: 1.75rem;
+}
+
+.extraBig {
+  font-size: 2rem;
+}
+
+.superBig {
+  font-size: 4rem;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Font colors: */
+/* ------------------------------------------------------------------------ */
+
+.grey {
+  color: grey;
+}
+
+.darkGrey {
+  color: rgb(54, 54, 54);
+}
+
+.lightBlack {
+  color: rgb(20, 20, 20);
+}
+
+.black {
+  color: black;
+}

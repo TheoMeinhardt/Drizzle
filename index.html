@@ -4,25 +4,28 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./style/style.css" />
-    <title>Drizzle</title>
 
-    <!-- 
-    Possible Font:
-    https://fonts.google.com/specimen/Nunito?preview.text_type=custom&preview.text=8%20%C2%B0C#standard-styles
-    -->
+    <!-- CSS: -->
+    <link rel="stylesheet" href="./style/style.css" />
+    <link rel="stylesheet" href="./style/fontStyles.css" />
+
+    <!-- Fonts: -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;800;900&display=swap" rel="stylesheet" />
+
+    <title>Drizzle</title>
   </head>
   <body>
     <div class="content" id="content">
-      <div class="currentInformation">
+      <div class="currentInformation darkGrey">
         <div>
-          <p class="locationDisplay"></p>
-          <p class="timeMeasuredDisplay"></p>
-          <p class="currentTemperaturDisplay"></p>
-          <div>
-            <img class="currentConditionIconDisplay" />
-            <p class="currentConditionDisplay"></p>
-          </div>
+          <p class="locationDisplay semiBold big"></p>
+          <p class="timeMeasuredDisplay extraSmall extraBold grey"></p>
+          <p class="currentTemperaturDisplay superBig lightBlack"></p>
+        </div>
+        <div>
+          <img class="currentConditionIconDisplay" />
+          <p class="currentConditionDisplay"></p>
         </div>
       </div>
     </div>
