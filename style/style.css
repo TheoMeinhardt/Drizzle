@@ -1,0 +1,8 @@
+.content {
+  margin-left: 20vw;
+  margin-right: 20vw;
+}
+
+.currentInformation > div {
+  width: 50%;
+}
