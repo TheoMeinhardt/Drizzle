@@ -1,5 +1,10 @@
+/* blue color scheme: */
+/* https://paletton.com/#uid=13M0u0kllll4O++d4w0tBaGMB00 */
+
 body {
   font-family: "Nunito", sans-serif;
+  margin: 0px;
+  padding: 0px;
 }
 
 p {
@@ -7,16 +12,48 @@ p {
   padding: 0px;
 }
 
+.floatRight {
+  justify-content: right;
+}
+
+.flexbox {
+  display: flex;
+  flex-flow: column, nowrap;
+  align-items: center;
+}
+
+.smallIcon {
+  height: 6vh;
+}
+
+.smallerIcon {
+  height: 3vh;
+  margin-right: 1vw;
+}
+
 .content {
-  margin-left: 20vw;
-  margin-right: 20vw;
+  margin-left: 15vw;
+  margin-right: 15vw;
 }
 
 .currentInformation {
-  display: flex;
-  flex-flow: column, nowrap;
+  background-color: #dde7ff;
+  padding: 2vh 5vw 2vh 5vw;
+  margin-top: 2vh;
+  border-radius: 9999px;
 }
 
 .currentInformation > div {
   width: 50%;
+}
+
+.currentTemperaturDisplay {
+  line-height: 80%;
+  margin-top: 1.5vh;
+}
+
+.locationDisplay,
+.timeMeasuredDisplay,
+.currentFeelsLike {
+  padding-left: 0.6vw;
 }

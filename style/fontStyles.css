@@ -32,6 +32,10 @@
 /* font size: */
 /* ------------------------------------------------------------------------ */
 
+.superSmall {
+  font-size: 0.6rem;
+}
+
 .extraSmall {
   font-size: 0.7rem;
 }
@@ -81,7 +85,7 @@
 }
 
 .lightBlack {
-  color: rgb(20, 20, 20);
+  color: rgb(31, 31, 31);
 }
 
 .black {

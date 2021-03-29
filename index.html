@@ -17,15 +17,30 @@
   </head>
   <body>
     <div class="content" id="content">
-      <div class="currentInformation darkGrey">
+      <div class="currentInformation darkGrey flexbox">
         <div>
-          <p class="locationDisplay semiBold big"></p>
+          <p class="locationDisplay semiBold big darkGrey"></p>
           <p class="timeMeasuredDisplay extraSmall extraBold grey"></p>
-          <p class="currentTemperaturDisplay superBig lightBlack"></p>
+          <p class="currentTemperaturDisplay superBig lightBlack lineHeight80 semiBold"></p>
+          <p class="currentFeelsLike semiBold semiSmall darkGrey"></p>
         </div>
         <div>
-          <img class="currentConditionIconDisplay" />
-          <p class="currentConditionDisplay"></p>
+          <div class="flexbox floatRight">
+            <img class="smallerIcon" src="./icons/wind.png" />
+            <p class="semiBold currentWindSpeedDisplay">15.1<span class="superSmall">kph</span></p>
+          </div>
+          <div class="flexbox floatRight">
+            <img class="smallerIcon" src="./icons/humidity.png" />
+            <p class="semiBold currentHumidityDisplay">71<span class="superSmall">%</span></p>
+          </div>
+          <div class="flexbox floatRight">
+            <img class="smallerIcon" src="./icons/visibility.png" />
+            <p class="semiBold currentVisibilityDisplay">10.0<span class="superSmall">km</span></p>
+          </div>
+          <div class="flexbox floatRight">
+            <img class="currentConditionIconDisplay smallerIcon" />
+            <p class="currentConditionTextDisplay semiBold darkGrey"></p>
+          </div>
         </div>
       </div>
     </div>
