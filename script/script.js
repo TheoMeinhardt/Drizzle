@@ -1,4 +1,5 @@
 var Chart = require("chart.js");
+console.log("test");
 //#region functions
 async function GetLocation(URL) {
     let response = await fetch(URL).then((Response) => Response.json());
