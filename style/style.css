@@ -57,3 +57,7 @@ p {
 .currentFeelsLike {
   padding-left: 0.6vw;
 }
+
+.forecastChart {
+  width: 100%;
+}
