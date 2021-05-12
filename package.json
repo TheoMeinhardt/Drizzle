@@ -4,8 +4,7 @@
   "description": "weather app",
   "main": "script.js",
   "dependencies": {
-    "chart.js": "^3.2.1",
-    "express": "^4.17.1"
+    "chart.js": "^3.2.1"
   },
   "devDependencies": {
     "@types/node": "^15.0.2"
