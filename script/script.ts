@@ -1,6 +1,5 @@
-var Chart = require("chart.js");
-
-console.log("testing");
+const Chart = require("chart.js");
+const dateFormat = require("dateformat");
 
 //#region functions
 async function GetLocation(URL) {
@@ -48,7 +47,47 @@ function ShowData(current, location, forecast) {
     currentHumidityDisplay.innerHTML = value.humidity + '<span class="superSmall">%</span>';
     currentVisibilityDisplay.innerHTML = value.vis_km + '<span class="superSmall">km</span>';
     currentFeelsLike.innerHTML = "feels like " + value.feelslike_c + " °C";
-    console.log("value");
+  });
+}
+
+function BuildChart(forecast): void {
+  forecast.then((value) => {
+    let labels: number[] = [];
+    let temperatures: number[] = [];
+    let currentHour: number = Number(dateFormat(new Date(), "HH"));
+    if (currentHour + 12 < 24) {
+      for (let i = currentHour; i < currentHour + 12; i++) {
+        labels.push(dateFormat(value.forecastday[0].hour[i].time, "HH:MM"));
+        temperatures.push(value.forecastday[0].hour[i].temp_c);
+      }
+    } else if (currentHour + 12 > 24) {
+      for (let i = currentHour; i < 24; i++) {
+        labels.push(dateFormat(value.forecastday[0].hour[i].time, "HH:MM"));
+        temperatures.push(value.forecastday[0].hour[i].temp_c);
+      }
+      for (let i = 0; i < 12 - (24 - currentHour); i++) {
+        labels.push(dateFormat(value.forecastday[1].hour[i].time, "HH:MM"));
+        temperatures.push(value.forecastday[1].hour[i].temp_c);
+      }
+    }
+
+    let chart: typeof Chart = new Chart(forecastChartCanvas, {
+      type: "line",
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: "Temperature °C",
+            data: temperatures,
+            backgroundColor: "hsl(192, 100%, 93%",
+            borderColor: "hsl(222, 100%, 93%",
+            tension: 0.2,
+            pointHitRadius: 5,
+            pointRadius: 3.5,
+          },
+        ],
+      },
+    });
   });
 }
 
@@ -68,29 +107,11 @@ let url = GenerateURL(),
   currentHumidityDisplay = document.querySelector(".currentHumidityDisplay"),
   currentVisibilityDisplay = document.querySelector(".currentVisibilityDisplay"),
   currentFeelsLike = document.querySelector(".currentFeelsLike"),
-  forecastChartCanvas = document.querySelector("#forecastChart");
+  forecastChartCanvas: HTMLCanvasElement = document.querySelector("#forecastChart");
 
-let forecastChart = new Chart(forecastChartCanvas, {
-  type: "bar",
-  data: {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-    datasets: [
-      {
-        label: "# of Votes",
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(255, 206, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(153, 102, 255, 0.2)", "rgba(255, 159, 64, 0.2)"],
-        borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(75, 192, 192, 1)", "rgba(153, 102, 255, 1)", "rgba(255, 159, 64, 1)"],
-        borderWidth: 1,
-      },
-    ],
-  },
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  },
-});
+let days: Date[];
+let forecastChart = BuildChart(forecastDATA);
 
 ShowData(currentDATA, locationDATA, forecastDATA);
+
+console.log(forecastDATA);

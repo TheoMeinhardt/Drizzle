@@ -37,7 +37,7 @@ p {
 }
 
 .currentInformation {
-  background-color: #dde7ff;
+  background-color: hsl(222, 100%, 93%);
   padding: 2vh 5vw 2vh 5vw;
   margin-top: 2vh;
   border-radius: 9999px;
