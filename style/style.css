@@ -58,6 +58,24 @@ p {
   padding-left: 0.6vw;
 }
 
+/* 
+Forecast:
+ */
+
+.forecast {
+  margin-top: 10vh;
+}
+
 .forecastChart {
   width: 100%;
+}
+
+/* 
+Searchbar:
+*/
+
+.searchArea {
+}
+
+.searchBar {
 }

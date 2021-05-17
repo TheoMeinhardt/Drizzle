@@ -17,7 +17,14 @@ async function GetForecast(URL) {
   return response.forecast;
 }
 
-function GenerateURL() {
+async function GetPlaces(placeName: string): Promise<JSON> {
+  let URL = GeneratePlacesURL(placeName);
+  let response: Promise<JSON> = await fetch(URL).then((Response) => Response.json());
+  console.log(response);
+  return null;
+}
+
+function GenerateForecastURL() {
   let url = "https://api.weatherapi.com/v1/forecast.json?";
   let data = {
     key: "2ff45aa75d644a10b9b112141212403",
@@ -29,6 +36,12 @@ function GenerateURL() {
 
   url += `key=${data.key}&q=${data.q}&days=${data.days}&aqi=${data.aqi}&alerts=${data.alerts}`;
 
+  return url;
+}
+
+function GeneratePlacesURL(placeName: string): string {
+  let url = "https://api.weatherapi.com/v1/search.json?key=2ff45aa75d644a10b9b112141212403&q=";
+  url += placeName;
   return url;
 }
 
@@ -79,11 +92,14 @@ function BuildChart(forecast): void {
           {
             label: "Temperature °C",
             data: temperatures,
-            backgroundColor: "hsl(192, 100%, 93%",
-            borderColor: "hsl(222, 100%, 93%",
-            tension: 0.2,
+            backgroundColor: "hsl(132, 100%, 93%)",
+            borderColor: "hsl(222, 100%, 93%)",
             pointHitRadius: 5,
             pointRadius: 3.5,
+            fill: {
+              target: "origin",
+              above: "hsl(222, 100%, 93%)",
+            },
           },
         ],
       },
@@ -91,10 +107,12 @@ function BuildChart(forecast): void {
   });
 }
 
+function search(searchBar: HTMLInputElement): void {}
+
 //#endregion
 
 // declaring the variables
-let url = GenerateURL(),
+let url = GenerateForecastURL(),
   currentDATA = GetCurrent(url),
   locationDATA = GetLocation(url),
   forecastDATA = GetForecast(url),
@@ -107,11 +125,13 @@ let url = GenerateURL(),
   currentHumidityDisplay = document.querySelector(".currentHumidityDisplay"),
   currentVisibilityDisplay = document.querySelector(".currentVisibilityDisplay"),
   currentFeelsLike = document.querySelector(".currentFeelsLike"),
-  forecastChartCanvas: HTMLCanvasElement = document.querySelector("#forecastChart");
+  forecastChartCanvas: HTMLCanvasElement = document.querySelector("#forecastChart"),
+  searchBar: HTMLInputElement = document.querySelector("#searchBar");
 
 let days: Date[];
 let forecastChart = BuildChart(forecastDATA);
 
 ShowData(currentDATA, locationDATA, forecastDATA);
+search(searchBar);
 
 console.log(forecastDATA);

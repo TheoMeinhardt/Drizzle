@@ -13,7 +13,13 @@ async function GetForecast(URL) {
     let response = await fetch(URL).then((Response) => Response.json());
     return response.forecast;
 }
-function GenerateURL() {
+async function GetPlaces(placeName) {
+    let URL = GeneratePlacesURL(placeName);
+    let response = await fetch(URL).then((Response) => Response.json());
+    console.log(response);
+    return null;
+}
+function GenerateForecastURL() {
     let url = "https://api.weatherapi.com/v1/forecast.json?";
     let data = {
         key: "2ff45aa75d644a10b9b112141212403",
@@ -23,6 +29,11 @@ function GenerateURL() {
         alerts: "no",
     };
     url += `key=${data.key}&q=${data.q}&days=${data.days}&aqi=${data.aqi}&alerts=${data.alerts}`;
+    return url;
+}
+function GeneratePlacesURL(placeName) {
+    let url = "https://api.weatherapi.com/v1/search.json?key=2ff45aa75d644a10b9b112141212403&q=";
+    url += placeName;
     return url;
 }
 // updating the data in html
@@ -70,21 +81,26 @@ function BuildChart(forecast) {
                     {
                         label: "Temperature °C",
                         data: temperatures,
-                        backgroundColor: "hsl(192, 100%, 93%",
-                        borderColor: "hsl(222, 100%, 93%",
-                        tension: 0.2,
+                        backgroundColor: "hsl(132, 100%, 93%)",
+                        borderColor: "hsl(222, 100%, 93%)",
                         pointHitRadius: 5,
                         pointRadius: 3.5,
+                        fill: {
+                            target: "origin",
+                            above: "hsl(222, 100%, 93%)",
+                        },
                     },
                 ],
             },
         });
     });
 }
+function search(searchBar) { }
 //#endregion
 // declaring the variables
-let url = GenerateURL(), currentDATA = GetCurrent(url), locationDATA = GetLocation(url), forecastDATA = GetForecast(url), locationDisplay = document.querySelector(".locationDisplay"), timeMeasuredDisplay = document.querySelector(".timeMeasuredDisplay"), currentTemperaturDisplay = document.querySelector(".currentTemperaturDisplay"), currentConditionTextDisplay = document.querySelector(".currentConditionTextDisplay"), currentConditionIconDisplay = document.querySelector(".currentConditionIconDisplay"), currentWindSpeedDisplay = document.querySelector(".currentWindSpeedDisplay"), currentHumidityDisplay = document.querySelector(".currentHumidityDisplay"), currentVisibilityDisplay = document.querySelector(".currentVisibilityDisplay"), currentFeelsLike = document.querySelector(".currentFeelsLike"), forecastChartCanvas = document.querySelector("#forecastChart");
+let url = GenerateForecastURL(), currentDATA = GetCurrent(url), locationDATA = GetLocation(url), forecastDATA = GetForecast(url), locationDisplay = document.querySelector(".locationDisplay"), timeMeasuredDisplay = document.querySelector(".timeMeasuredDisplay"), currentTemperaturDisplay = document.querySelector(".currentTemperaturDisplay"), currentConditionTextDisplay = document.querySelector(".currentConditionTextDisplay"), currentConditionIconDisplay = document.querySelector(".currentConditionIconDisplay"), currentWindSpeedDisplay = document.querySelector(".currentWindSpeedDisplay"), currentHumidityDisplay = document.querySelector(".currentHumidityDisplay"), currentVisibilityDisplay = document.querySelector(".currentVisibilityDisplay"), currentFeelsLike = document.querySelector(".currentFeelsLike"), forecastChartCanvas = document.querySelector("#forecastChart"), searchBar = document.querySelector("#searchBar");
 let days;
 let forecastChart = BuildChart(forecastDATA);
 ShowData(currentDATA, locationDATA, forecastDATA);
+search(searchBar);
 console.log(forecastDATA);
