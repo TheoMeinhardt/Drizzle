@@ -17,18 +17,11 @@ async function GetForecast(URL) {
   return response.forecast;
 }
 
-async function GetPlaces(placeName: string): Promise<JSON> {
-  let URL = GeneratePlacesURL(placeName);
-  let response: Promise<JSON> = await fetch(URL).then((Response) => Response.json());
-  console.log(response);
-  return null;
-}
-
-function GenerateForecastURL() {
+function GenerateForecastURL(place: string): string {
   let url = "https://api.weatherapi.com/v1/forecast.json?";
   let data = {
     key: "2ff45aa75d644a10b9b112141212403",
-    q: "Vienna", // Location
+    q: place, // Location
     days: 3, // Forecast days
     aqi: "no", // airquality
     alerts: "no",
@@ -39,10 +32,11 @@ function GenerateForecastURL() {
   return url;
 }
 
-function GeneratePlacesURL(placeName: string): string {
-  let url = "https://api.weatherapi.com/v1/search.json?key=2ff45aa75d644a10b9b112141212403&q=";
-  url += placeName;
-  return url;
+function RefreshData(place: string): void {
+  url = GenerateForecastURL(place);
+  currentDATA = GetCurrent(url);
+  locationDATA = GetLocation(url);
+  forecastDATA = GetForecast(url);
 }
 
 // updating the data in html
@@ -67,8 +61,8 @@ function BuildChart(forecast): void {
   forecast.then((value) => {
     let labels: number[] = [];
     let temperatures: number[] = [];
-    let currentHour: number = Number(dateFormat(new Date(), "HH"));
-    if (currentHour + 12 < 24) {
+    let currentHour: number = Number(dateFormat(new Date(), "HH")) + 1;
+    if (currentHour + 12 <= 24) {
       for (let i = currentHour; i < currentHour + 12; i++) {
         labels.push(dateFormat(value.forecastday[0].hour[i].time, "HH:MM"));
         temperatures.push(value.forecastday[0].hour[i].temp_c);
@@ -94,8 +88,8 @@ function BuildChart(forecast): void {
             data: temperatures,
             backgroundColor: "hsl(132, 100%, 93%)",
             borderColor: "hsl(222, 100%, 93%)",
-            pointHitRadius: 5,
-            pointRadius: 3.5,
+            pointHitRadius: 20,
+            pointRadius: 5,
             fill: {
               target: "origin",
               above: "hsl(222, 100%, 93%)",
@@ -103,16 +97,57 @@ function BuildChart(forecast): void {
           },
         ],
       },
+      options: {
+        scales: {
+          y: {
+            ticks: {
+              callback: function (value, index, values) {
+                if (value % 1 == 0) {
+                  return value + " °C";
+                }
+              },
+            },
+          },
+        },
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+            align: "end",
+          },
+        },
+      },
     });
   });
 }
 
-function search(searchBar: HTMLInputElement): void {}
+function updateChart(chart: typeof Chart, forecast): void {
+  forecast.then((value) => {
+    let labels: number[] = [];
+    let temperatures: number[] = [];
+    let currentHour: number = Number(dateFormat(new Date(), "HH")) + 1;
+    if (currentHour + 12 <= 24) {
+      for (let i = currentHour; i < currentHour + 12; i++) {
+        labels.push(dateFormat(value.forecastday[0].hour[i].time, "HH:MM"));
+        temperatures.push(value.forecastday[0].hour[i].temp_c);
+      }
+    } else if (currentHour + 12 > 24) {
+      for (let i = currentHour; i < 24; i++) {
+        labels.push(dateFormat(value.forecastday[0].hour[i].time, "HH:MM"));
+        temperatures.push(value.forecastday[0].hour[i].temp_c);
+      }
+      for (let i = 0; i < 12 - (24 - currentHour); i++) {
+        labels.push(dateFormat(value.forecastday[1].hour[i].time, "HH:MM"));
+        temperatures.push(value.forecastday[1].hour[i].temp_c);
+      }
+    }
+  }
+}
 
 //#endregion
 
 // declaring the variables
-let url = GenerateForecastURL(),
+let url = GenerateForecastURL("New York"),
   currentDATA = GetCurrent(url),
   locationDATA = GetLocation(url),
   forecastDATA = GetForecast(url),
@@ -126,12 +161,16 @@ let url = GenerateForecastURL(),
   currentVisibilityDisplay = document.querySelector(".currentVisibilityDisplay"),
   currentFeelsLike = document.querySelector(".currentFeelsLike"),
   forecastChartCanvas: HTMLCanvasElement = document.querySelector("#forecastChart"),
+  forecastChart: typeof Chart = BuildChart(forecastDATA),
   searchBar: HTMLInputElement = document.querySelector("#searchBar");
 
 let days: Date[];
-let forecastChart = BuildChart(forecastDATA);
+
+searchBar.addEventListener("keydown", (event: KeyboardEvent): void => {
+  if (event.key == "Enter") {
+    RefreshData(searchBar.value);
+    ShowData(currentDATA, locationDATA, forecastDATA);
+  }
+});
 
 ShowData(currentDATA, locationDATA, forecastDATA);
-search(searchBar);
-
-console.log(forecastDATA);

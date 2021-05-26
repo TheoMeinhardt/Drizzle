@@ -36,6 +36,10 @@ p {
   margin-right: 15vw;
 }
 
+/* 
+current weather information:
+*/
+
 .currentInformation {
   background-color: hsl(222, 100%, 93%);
   padding: 2vh 5vw 2vh 5vw;
@@ -75,7 +79,26 @@ Searchbar:
 */
 
 .searchArea {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  border-radius: 999px;
+  background-color: hsl(222, 100%, 93%);
+  height: 5vh;
 }
 
 .searchBar {
+  width: 94.5%;
+  height: 4.25vh;
+  padding-left: 1vw;
+}
+
+.searchBar > input {
+  border: none;
+  border-radius: 999px;
+  background-color: hsl(222, 100%, 93%);
+}
+
+.searchButton {
+  width: 3%;
 }

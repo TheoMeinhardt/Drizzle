@@ -18,8 +18,12 @@
   <body>
     <div class="content" id="content">
       <div class="searchArea">
-        <input class="searchBar" id="searchBar" list="cityDataList"></input>
-        <datalist id="cityDataList"></datalist>
+        <div class="searchBar">
+          <input class="searchBar" id="searchBar" list="cityDataList"></input>
+        </div>
+        <div class="searchButton">
+          <img id="searchButton" src="./icons/search_black_24dp.svg"></img>
+        </div>
       </div>
 
       <div class="currentInformation darkGrey flexbox">
@@ -32,15 +36,15 @@
         <div>
           <div class="flexbox floatRight">
             <img class="smallerIcon" src="./icons/wind.png" />
-            <p class="semiBold currentWindSpeedDisplay">15.1<span class="superSmall">kph</span></p>
+            <p class="semiBold currentWindSpeedDisplay"><span class="superSmall">kph</span></p>
           </div>
           <div class="flexbox floatRight">
             <img class="smallerIcon" src="./icons/humidity.png" />
-            <p class="semiBold currentHumidityDisplay">71<span class="superSmall">%</span></p>
+            <p class="semiBold currentHumidityDisplay"><span class="superSmall">%</span></p>
           </div>
           <div class="flexbox floatRight">
             <img class="smallerIcon" src="./icons/visibility.png" />
-            <p class="semiBold currentVisibilityDisplay">10.0<span class="superSmall">km</span></p>
+            <p class="semiBold currentVisibilityDisplay"><span class="superSmall">km</span></p>
           </div>
           <div class="flexbox floatRight">
             <img class="currentConditionIconDisplay smallerIcon" />
