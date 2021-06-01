@@ -38,7 +38,7 @@ function RefreshData(place: string): void {
   locationDATA = GetLocation(url);
   forecastDATA = GetForecast(url);
 
-  BuildChart(forecastDATA);
+  updateChart(forecastChart, forecastDATA);
 }
 
 // updating the data in html
@@ -59,8 +59,8 @@ function ShowData(current, location, forecast) {
   });
 }
 
-function BuildChart(forecast): void {
-  forecast.then((value) => {
+function BuildChart(forecast): typeof Chart {
+  return forecast.then((value) => {
     let labels: number[] = [];
     let temperatures: number[] = [];
     let currentHour: number = Number(dateFormat(new Date(), "HH")) + 1;
@@ -120,7 +120,40 @@ function BuildChart(forecast): void {
         },
       },
     });
-    chart.update();
+
+    return chart;
+  });
+}
+
+function updateChart(chart: typeof Chart, forecast): void {
+  forecast.then((value) => {
+    let labels: number[] = [];
+    let temperatures: number[] = [];
+    let currentHour: number = Number(dateFormat(new Date(), "HH")) + 1;
+    if (currentHour + 12 <= 24) {
+      for (let i = currentHour; i < currentHour + 12; i++) {
+        labels.push(dateFormat(value.forecastday[0].hour[i].time, "HH:MM"));
+        temperatures.push(value.forecastday[0].hour[i].temp_c);
+      }
+    } else if (currentHour + 12 > 24) {
+      for (let i = currentHour; i < 24; i++) {
+        labels.push(dateFormat(value.forecastday[0].hour[i].time, "HH:MM"));
+        temperatures.push(value.forecastday[0].hour[i].temp_c);
+      }
+      for (let i = 0; i < 12 - (24 - currentHour); i++) {
+        labels.push(dateFormat(value.forecastday[1].hour[i].time, "HH:MM"));
+        temperatures.push(value.forecastday[1].hour[i].temp_c);
+      }
+    }
+
+    forecastChart.then((value) => {
+      value.data.labels = labels;
+      value.data.datasets.forEach((dataset) => {
+        dataset.data = temperatures;
+      });
+    });
+
+    forecastChart.update;
   });
 }
 
@@ -154,3 +187,12 @@ searchBar.addEventListener("keydown", (event: KeyboardEvent): void => {
 });
 
 ShowData(currentDATA, locationDATA, forecastDATA);
+
+// forecastChart.then((value) => {
+//   value.data.labels = ["test1", "test2"];
+//   value.data.datasets.forEach((dataset) => {
+//     dataset.data = [1, 2];
+//   });
+// });
+
+// forecastChart.update;

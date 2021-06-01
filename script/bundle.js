@@ -12867,7 +12867,7 @@ function RefreshData(place) {
     currentDATA = GetCurrent(url);
     locationDATA = GetLocation(url);
     forecastDATA = GetForecast(url);
-    BuildChart(forecastDATA);
+    updateChart(forecastChart, forecastDATA);
 }
 // updating the data in html
 function ShowData(current, location, forecast) {
@@ -12886,7 +12886,7 @@ function ShowData(current, location, forecast) {
     });
 }
 function BuildChart(forecast) {
-    forecast.then((value) => {
+    return forecast.then((value) => {
         let labels = [];
         let temperatures = [];
         let currentHour = Number(dateFormat(new Date(), "HH")) + 1;
@@ -12946,7 +12946,37 @@ function BuildChart(forecast) {
                 },
             },
         });
-        chart.update();
+        return chart;
+    });
+}
+function updateChart(chart, forecast) {
+    forecast.then((value) => {
+        let labels = [];
+        let temperatures = [];
+        let currentHour = Number(dateFormat(new Date(), "HH")) + 1;
+        if (currentHour + 12 <= 24) {
+            for (let i = currentHour; i < currentHour + 12; i++) {
+                labels.push(dateFormat(value.forecastday[0].hour[i].time, "HH:MM"));
+                temperatures.push(value.forecastday[0].hour[i].temp_c);
+            }
+        }
+        else if (currentHour + 12 > 24) {
+            for (let i = currentHour; i < 24; i++) {
+                labels.push(dateFormat(value.forecastday[0].hour[i].time, "HH:MM"));
+                temperatures.push(value.forecastday[0].hour[i].temp_c);
+            }
+            for (let i = 0; i < 12 - (24 - currentHour); i++) {
+                labels.push(dateFormat(value.forecastday[1].hour[i].time, "HH:MM"));
+                temperatures.push(value.forecastday[1].hour[i].temp_c);
+            }
+        }
+        forecastChart.then((value) => {
+            value.data.labels = labels;
+            value.data.datasets.forEach((dataset) => {
+                dataset.data = temperatures;
+            });
+        });
+        forecastChart.update;
     });
 }
 //#endregion
@@ -12960,5 +12990,12 @@ searchBar.addEventListener("keydown", (event) => {
     }
 });
 ShowData(currentDATA, locationDATA, forecastDATA);
+// forecastChart.then((value) => {
+//   value.data.labels = ["test1", "test2"];
+//   value.data.datasets.forEach((dataset) => {
+//     dataset.data = [1, 2];
+//   });
+// });
+// forecastChart.update;
 
 },{"chart.js":1,"dateformat":2}]},{},[3]);

@@ -5,7 +5,8 @@
   "main": "script.js",
   "dependencies": {
     "chart.js": "^3.2.1",
-    "dateformat": "^4.5.1"
+    "dateformat": "^4.5.1",
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "@types/node": "^15.0.2",
