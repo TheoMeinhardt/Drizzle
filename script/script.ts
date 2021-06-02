@@ -153,7 +153,7 @@ function updateChart(chart: typeof Chart, forecast): void {
       });
     });
 
-    forecastChart.update;
+    forecastChart.update();
   });
 }
 
@@ -187,12 +187,3 @@ searchBar.addEventListener("keydown", (event: KeyboardEvent): void => {
 });
 
 ShowData(currentDATA, locationDATA, forecastDATA);
-
-// forecastChart.then((value) => {
-//   value.data.labels = ["test1", "test2"];
-//   value.data.datasets.forEach((dataset) => {
-//     dataset.data = [1, 2];
-//   });
-// });
-
-// forecastChart.update;

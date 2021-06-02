@@ -12976,7 +12976,7 @@ function updateChart(chart, forecast) {
                 dataset.data = temperatures;
             });
         });
-        forecastChart.update;
+        forecastChart.update();
     });
 }
 //#endregion
@@ -12990,12 +12990,5 @@ searchBar.addEventListener("keydown", (event) => {
     }
 });
 ShowData(currentDATA, locationDATA, forecastDATA);
-// forecastChart.then((value) => {
-//   value.data.labels = ["test1", "test2"];
-//   value.data.datasets.forEach((dataset) => {
-//     dataset.data = [1, 2];
-//   });
-// });
-// forecastChart.update;
 
 },{"chart.js":1,"dateformat":2}]},{},[3]);
