@@ -38,7 +38,7 @@ function RefreshData(place: string): void {
   locationDATA = GetLocation(url);
   forecastDATA = GetForecast(url);
 
-  updateChart(forecastChart, forecastDATA);
+  updateChart(forecastDATA);
 }
 
 // updating the data in html
@@ -88,13 +88,13 @@ function BuildChart(forecast): typeof Chart {
           {
             label: "Temperature °C",
             data: temperatures,
-            backgroundColor: "hsl(132, 100%, 93%)",
-            borderColor: "hsl(222, 100%, 93%)",
+            // backgroundColor: "#F1A208",
+            borderColor: "#F1A208",
             pointHitRadius: 20,
             pointRadius: 5,
             fill: {
-              target: "origin",
-              above: "hsl(222, 100%, 93%)",
+              target: "start",
+              above: "#F26430",
             },
           },
         ],
@@ -125,36 +125,34 @@ function BuildChart(forecast): typeof Chart {
   });
 }
 
-function updateChart(chart: typeof Chart, forecast): void {
-  forecast.then((value) => {
-    let labels: number[] = [];
-    let temperatures: number[] = [];
-    let currentHour: number = Number(dateFormat(new Date(), "HH")) + 1;
-    if (currentHour + 12 <= 24) {
-      for (let i = currentHour; i < currentHour + 12; i++) {
-        labels.push(dateFormat(value.forecastday[0].hour[i].time, "HH:MM"));
-        temperatures.push(value.forecastday[0].hour[i].temp_c);
-      }
-    } else if (currentHour + 12 > 24) {
-      for (let i = currentHour; i < 24; i++) {
-        labels.push(dateFormat(value.forecastday[0].hour[i].time, "HH:MM"));
-        temperatures.push(value.forecastday[0].hour[i].temp_c);
-      }
-      for (let i = 0; i < 12 - (24 - currentHour); i++) {
-        labels.push(dateFormat(value.forecastday[1].hour[i].time, "HH:MM"));
-        temperatures.push(value.forecastday[1].hour[i].temp_c);
-      }
-    }
-
-    forecastChart.then((value) => {
-      value.data.labels = labels;
-      value.data.datasets.forEach((dataset) => {
-        dataset.data = temperatures;
-      });
-    });
-
-    forecastChart.update();
+function writeCookie(): void {
+  let cookieString = "";
+  favourites.forEach((item: string) => {
+    cookieString += `${item};`;
   });
+
+  document.cookie = `favourites=${cookieString}`;
+}
+
+function readCookies(): void {
+  console.log(document.cookie);
+}
+
+function updateChart(forecast): void {
+  forecastChartCanvas.remove();
+  let canvas: HTMLCanvasElement = document.createElement("canvas");
+  canvas.id = "forecastChart";
+  canvas.classList.add("forecastChart");
+  document.querySelector("#forecast").appendChild(canvas);
+  forecastChartCanvas = document.querySelector("#forecastChart");
+  forecastChart = BuildChart(forecast);
+}
+
+function saveSearches(query: string) {
+  storage.setItem(query, query);
+  let option: HTMLOptionElement = document.createElement("option");
+  option.value = storage.getItem(query);
+  cityDataList.appendChild(option);
 }
 
 //#endregion
@@ -175,7 +173,13 @@ let url = GenerateForecastURL("New York"),
   currentFeelsLike = document.querySelector(".currentFeelsLike"),
   forecastChartCanvas: HTMLCanvasElement = document.querySelector("#forecastChart"),
   forecastChart: typeof Chart = BuildChart(forecastDATA),
-  searchBar: HTMLInputElement = document.querySelector("#searchBar");
+  searchArea: HTMLDivElement = document.querySelector("#searchArea"),
+  searchBar: HTMLInputElement = document.querySelector("#searchBar"),
+  searchButton: HTMLImageElement = document.querySelector("#searchButton"),
+  storage = localStorage,
+  cityDataList: HTMLDataListElement = document.querySelector("#cityDataList"),
+  favourites: string[] = [],
+  favourite: HTMLDivElement = document.querySelector("#favourite");
 
 let days: Date[];
 
@@ -183,7 +187,34 @@ searchBar.addEventListener("keydown", (event: KeyboardEvent): void => {
   if (event.key == "Enter") {
     RefreshData(searchBar.value);
     ShowData(currentDATA, locationDATA, forecastDATA);
+    saveSearches(searchBar.value);
   }
+});
+
+searchBar.addEventListener("focus", (event: FocusEvent): void => {
+  searchArea.classList.add("searchbarFocus");
+});
+
+searchBar.addEventListener("blur", (event: FocusEvent): void => {
+  searchArea.classList.remove("searchbarFocus");
+});
+
+searchButton.addEventListener("click", (event: KeyboardEvent): void => {
+  RefreshData(searchBar.value);
+  ShowData(currentDATA, locationDATA, forecastDATA);
+  saveSearches(searchBar.value);
+});
+
+favourite.addEventListener("click", (event: MouseEvent): void => {
+  favourites.forEach((item: string): void => {
+    if (item == locationDisplay.innerHTML) {
+      favourites.splice(favourites.indexOf(item), 1);
+    } else {
+      favourites.push(item);
+    }
+  });
+
+  writeCookie();
 });
 
 ShowData(currentDATA, locationDATA, forecastDATA);

@@ -76,18 +76,6 @@
 /* Font colors: */
 /* ------------------------------------------------------------------------ */
 
-.grey {
-  color: grey;
-}
-
-.darkGrey {
-  color: rgb(54, 54, 54);
-}
-
-.lightBlack {
-  color: rgb(31, 31, 31);
-}
-
-.black {
-  color: black;
+body {
+  color: hsl(222, 100%, 93%);
 }

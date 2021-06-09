@@ -17,43 +17,47 @@
   </head>
   <body>
     <div class="content" id="content">
-      <div class="searchArea">
+      <div class="searchArea" id="searchArea">
         <div class="searchBar">
           <input class="searchBar" id="searchBar" list="cityDataList"></input>
+          <datalist id="cityDataList"></datalist>
         </div>
         <div class="searchButton">
-          <img id="searchButton" src="./icons/search_black_24dp.svg"></img>
+          <img id="searchButton" src="./icons/search_white_24dp.svg"></img>
         </div>
       </div>
 
-      <div class="currentInformation darkGrey flexbox">
+      <div class="currentInformation  flexbox">
         <div>
-          <p class="locationDisplay semiBold big darkGrey"></p>
-          <p class="timeMeasuredDisplay extraSmall extraBold grey"></p>
-          <p class="currentTemperaturDisplay superBig lightBlack lineHeight80 semiBold"></p>
-          <p class="currentFeelsLike semiBold semiSmall darkGrey"></p>
+          <p class="locationDisplay semiBold big"></p>
+          <p class="timeMeasuredDisplay extraSmall extraBold "></p>
+          <p class="currentTemperaturDisplay superBig lineHeight80 semiBold"></p>
+          <p class="currentFeelsLike semiBold semiSmall "></p>
         </div>
         <div>
+          <div class="favourite flexbox floatRight" id="favourite">
+            <img id="favouriteButton" src="./icons/grade_white_24dp.svg"/>
+          </div>
           <div class="flexbox floatRight">
-            <img class="smallerIcon" src="./icons/wind.png" />
+            <img class="smallerIcon" src="./icons/air_white_24dp.svg" />
             <p class="semiBold currentWindSpeedDisplay"><span class="superSmall">kph</span></p>
           </div>
           <div class="flexbox floatRight">
-            <img class="smallerIcon" src="./icons/humidity.png" />
+            <img class="smallerIcon" src="./icons/water_white_24dp.svg" />
             <p class="semiBold currentHumidityDisplay"><span class="superSmall">%</span></p>
           </div>
           <div class="flexbox floatRight">
-            <img class="smallerIcon" src="./icons/visibility.png" />
+            <img class="smallerIcon" src="./icons/visibility_white_24dp.svg" />
             <p class="semiBold currentVisibilityDisplay"><span class="superSmall">km</span></p>
           </div>
           <div class="flexbox floatRight">
             <img class="currentConditionIconDisplay smallerIcon" />
-            <p class="currentConditionTextDisplay semiBold darkGrey"></p>
+            <p class="currentConditionTextDisplay semiBold "></p>
           </div>
         </div>
       </div>
 
-      <div class="forecast">
+      <div class="forecast" id="forecast">
         <canvas class="forecastChart" id="forecastChart"></canvas>
       </div>
     </div>

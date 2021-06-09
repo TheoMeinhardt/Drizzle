@@ -5,6 +5,7 @@ body {
   font-family: "Nunito", sans-serif;
   margin: 0px;
   padding: 0px;
+  background-color: #0f2f43;
 }
 
 p {
@@ -41,7 +42,7 @@ current weather information:
 */
 
 .currentInformation {
-  background-color: hsl(222, 100%, 93%);
+  background-color: #174664;
   padding: 2vh 5vw 2vh 5vw;
   margin-top: 2vh;
   border-radius: 9999px;
@@ -79,11 +80,12 @@ Searchbar:
 */
 
 .searchArea {
+  margin-top: 1vh;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   border-radius: 999px;
-  background-color: hsl(222, 100%, 93%);
+  background-color: #174664;
   height: 5vh;
 }
 
@@ -96,9 +98,30 @@ Searchbar:
 .searchBar > input {
   border: none;
   border-radius: 999px;
-  background-color: hsl(222, 100%, 93%);
+  background-color: #174664;
+  color: #dbe6ff;
+}
+
+.searchBar > input:focus {
+  outline: none;
 }
 
 .searchButton {
+  margin-top: 5px;
   width: 3%;
+  cursor: pointer;
+}
+
+.searchbarFocus {
+  border: 2px solid #dbe6ff;
+  transition: border 0.05s;
+}
+
+/* 
+Favourise Button:
+*/
+
+.favourite {
+  margin: 0px 0px 10px 10px;
+  cursor: pointer;
 }
