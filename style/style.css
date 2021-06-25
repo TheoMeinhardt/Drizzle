@@ -122,6 +122,9 @@ Favourise Button:
 */
 
 .favourite {
-  margin: 0px 0px 10px 10px;
+  margin-bottom: 10px;
+}
+
+.favourite > img {
   cursor: pointer;
 }

@@ -125,7 +125,7 @@ function BuildChart(forecast): typeof Chart {
   });
 }
 
-function writeCookie(): void {
+function writeFavouriteCookies(): void {
   let cookieString = "";
   favourites.forEach((item: string) => {
     cookieString += `${item};`;
@@ -134,8 +134,8 @@ function writeCookie(): void {
   document.cookie = `favourites=${cookieString}`;
 }
 
-function readCookies(): void {
-  console.log(document.cookie);
+function readFavouriteCookies(): string[] {
+  return [];
 }
 
 function updateChart(forecast): void {
@@ -179,9 +179,13 @@ let url = GenerateForecastURL("New York"),
   storage = localStorage,
   cityDataList: HTMLDataListElement = document.querySelector("#cityDataList"),
   favourites: string[] = [],
-  favourite: HTMLDivElement = document.querySelector("#favourite");
+  favouriteButton: HTMLImageElement = document.querySelector("#favouriteButton"),
+  favouriteBack: HTMLDivElement = document.querySelector("#favouriteBack"),
+  favouriteNext: HTMLDivElement = document.querySelector("#favouriteNext");
 
 let days: Date[];
+
+//#region Eventlisteners:
 
 searchBar.addEventListener("keydown", (event: KeyboardEvent): void => {
   if (event.key == "Enter") {
@@ -205,16 +209,34 @@ searchButton.addEventListener("click", (event: KeyboardEvent): void => {
   saveSearches(searchBar.value);
 });
 
-favourite.addEventListener("click", (event: MouseEvent): void => {
+favouriteButton.addEventListener("click", (event: MouseEvent): void => {
+  let alreadyFavourite: boolean;
+  for (let i = 0; i < favourites.length; i++) {
+    let item = favourites[i];
+  }
+
   favourites.forEach((item: string): void => {
-    if (item == locationDisplay.innerHTML) {
-      favourites.splice(favourites.indexOf(item), 1);
-    } else {
-      favourites.push(item);
-    }
+    alreadyFavourite = item == locationDisplay.innerHTML ? true : false;
   });
 
-  writeCookie();
+  switch (alreadyFavourite) {
+    case true:
+      favourites.splice(favourites.indexOf(locationDisplay.innerHTML, 1));
+      break;
+    case false:
+      favourites.push(locationDisplay.innerHTML);
+      break;
+  }
+
+  console.log(favourites.length);
+  // writeFavouriteCookies();
 });
 
+favouriteBack.addEventListener("click", (event: MouseEvent): void => {});
+
+favouriteNext.addEventListener("click", (event: MouseEvent): void => {});
+
+//#endregion
+
+favourites = readFavouriteCookies();
 ShowData(currentDATA, locationDATA, forecastDATA);

@@ -112,15 +112,15 @@ function BuildChart(forecast) {
         return chart;
     });
 }
-function writeCookie() {
+function writeFavouriteCookies() {
     let cookieString = "";
     favourites.forEach((item) => {
         cookieString += `${item};`;
     });
     document.cookie = `favourites=${cookieString}`;
 }
-function readCookies() {
-    console.log(document.cookie);
+function readFavouriteCookies() {
+    return [];
 }
 function updateChart(forecast) {
     forecastChartCanvas.remove();
@@ -139,8 +139,9 @@ function saveSearches(query) {
 }
 //#endregion
 // declaring the variables
-let url = GenerateForecastURL("New York"), currentDATA = GetCurrent(url), locationDATA = GetLocation(url), forecastDATA = GetForecast(url), locationDisplay = document.querySelector(".locationDisplay"), timeMeasuredDisplay = document.querySelector(".timeMeasuredDisplay"), currentTemperaturDisplay = document.querySelector(".currentTemperaturDisplay"), currentConditionTextDisplay = document.querySelector(".currentConditionTextDisplay"), currentConditionIconDisplay = document.querySelector(".currentConditionIconDisplay"), currentWindSpeedDisplay = document.querySelector(".currentWindSpeedDisplay"), currentHumidityDisplay = document.querySelector(".currentHumidityDisplay"), currentVisibilityDisplay = document.querySelector(".currentVisibilityDisplay"), currentFeelsLike = document.querySelector(".currentFeelsLike"), forecastChartCanvas = document.querySelector("#forecastChart"), forecastChart = BuildChart(forecastDATA), searchArea = document.querySelector("#searchArea"), searchBar = document.querySelector("#searchBar"), searchButton = document.querySelector("#searchButton"), storage = localStorage, cityDataList = document.querySelector("#cityDataList"), favourites = [], favourite = document.querySelector("#favourite");
+let url = GenerateForecastURL("New York"), currentDATA = GetCurrent(url), locationDATA = GetLocation(url), forecastDATA = GetForecast(url), locationDisplay = document.querySelector(".locationDisplay"), timeMeasuredDisplay = document.querySelector(".timeMeasuredDisplay"), currentTemperaturDisplay = document.querySelector(".currentTemperaturDisplay"), currentConditionTextDisplay = document.querySelector(".currentConditionTextDisplay"), currentConditionIconDisplay = document.querySelector(".currentConditionIconDisplay"), currentWindSpeedDisplay = document.querySelector(".currentWindSpeedDisplay"), currentHumidityDisplay = document.querySelector(".currentHumidityDisplay"), currentVisibilityDisplay = document.querySelector(".currentVisibilityDisplay"), currentFeelsLike = document.querySelector(".currentFeelsLike"), forecastChartCanvas = document.querySelector("#forecastChart"), forecastChart = BuildChart(forecastDATA), searchArea = document.querySelector("#searchArea"), searchBar = document.querySelector("#searchBar"), searchButton = document.querySelector("#searchButton"), storage = localStorage, cityDataList = document.querySelector("#cityDataList"), favourites = [], favouriteButton = document.querySelector("#favouriteButton"), favouriteBack = document.querySelector("#favouriteBack"), favouriteNext = document.querySelector("#favouriteNext");
 let days;
+//#region Eventlisteners:
 searchBar.addEventListener("keydown", (event) => {
     if (event.key == "Enter") {
         RefreshData(searchBar.value);
@@ -159,15 +160,27 @@ searchButton.addEventListener("click", (event) => {
     ShowData(currentDATA, locationDATA, forecastDATA);
     saveSearches(searchBar.value);
 });
-favourite.addEventListener("click", (event) => {
+favouriteButton.addEventListener("click", (event) => {
+    let alreadyFavourite;
+    for (let i = 0; i < favourites.length; i++) {
+        let item = favourites[i];
+    }
     favourites.forEach((item) => {
-        if (item == locationDisplay.innerHTML) {
-            favourites.splice(favourites.indexOf(item), 1);
-        }
-        else {
-            favourites.push(item);
-        }
+        alreadyFavourite = item == locationDisplay.innerHTML ? true : false;
     });
-    writeCookie();
+    switch (alreadyFavourite) {
+        case true:
+            favourites.splice(favourites.indexOf(locationDisplay.innerHTML, 1));
+            break;
+        case false:
+            favourites.push(locationDisplay.innerHTML);
+            break;
+    }
+    console.log(favourites.length);
+    // writeFavouriteCookies();
 });
+favouriteBack.addEventListener("click", (event) => { });
+favouriteNext.addEventListener("click", (event) => { });
+//#endregion
+favourites = readFavouriteCookies();
 ShowData(currentDATA, locationDATA, forecastDATA);
